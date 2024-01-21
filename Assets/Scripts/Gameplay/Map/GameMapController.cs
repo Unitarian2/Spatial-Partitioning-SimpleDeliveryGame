@@ -8,6 +8,10 @@ public class GameMapController : MonoBehaviour
 
     [SerializeField] private List<Unit> units;
 
+    [SerializeField] private Unit playerUnit;
+
+    [SerializeField] private PlayerController playerController;
+
     //Grid material
     private Material gridMaterial;
     //Grid mesh
@@ -22,6 +26,10 @@ public class GameMapController : MonoBehaviour
         {
             unit.InitUnit(grid, unit.gameObject.transform.position);
         }
+
+        playerUnit.InitPlayerUnit(grid, playerUnit.gameObject.transform.position);
+        playerController.InitPlayerMapInfo(grid, playerUnit);
+
     }
 
     private void LateUpdate()

@@ -6,9 +6,10 @@ public class Grid
 {
     public const int NUM_CELLS = 20;
 
-    public const int CELL_SIZE = 30;
+    public const int CELL_SIZE = 15;
 
     private Unit[,] cells = new Unit[NUM_CELLS, NUM_CELLS];
+    private Unit[,] playerCells = new Unit[NUM_CELLS, NUM_CELLS];
 
     //How many units do we have on the grid, which should be faster than to iterate through all cells and count them
     public int unitCount { get; private set; }
@@ -25,7 +26,7 @@ public class Grid
         }
     }
 
-    public void Add(Unit newUnit, bool isNewUnit = false)
+    public void AddBuilding(Unit newUnit, bool isNewUnit = false)
     {
         Vector2Int cellPos = ConvertFromWorldToCell(newUnit.transform.position);
 
@@ -52,6 +53,35 @@ public class Grid
 
         if (newUnit.prev != null) newUnit.prevName = newUnit.prev.gameObject.name;
         if (newUnit.next != null) newUnit.nextName = newUnit.next.gameObject.name;
+    }
+
+    public void AddPlayer(Unit playerUnit)
+    {
+        //Player'ýn hangi cell'de olduðunu buluyoruz.
+        Vector2Int cellPos = ConvertFromWorldToCell(playerUnit.transform.position);
+        playerCells[cellPos.x, cellPos.y] = playerUnit;//Player'ý ilgili cell'e atýyoruz.
+        Debug.Log("PlayerCell : "+ cellPos.x+"/"+ cellPos.y);
+    }
+
+    public void CheckPlayerMovement(Unit playerUnit, Vector3 oldPos, Vector3 newPos)
+    {
+        //See what cell it was in before we assign the new position
+        Vector2Int oldCellPos = ConvertFromWorldToCell(oldPos);
+
+        //See which cell it's moving to
+        Vector2Int newCellPos = ConvertFromWorldToCell(newPos);
+
+        //If it didn't change cell, we are done
+        if (oldCellPos.x == newCellPos.x && oldCellPos.y == newCellPos.y)
+        {
+            return;
+        }
+
+        //Remove it from the old cell
+        cells[oldCellPos.x, oldCellPos.y] = null;
+
+        //Add it back to the grid at its new cell
+        AddPlayer(playerUnit);
     }
 
     public Vector2Int ConvertFromWorldToCell(Vector3 pos)
