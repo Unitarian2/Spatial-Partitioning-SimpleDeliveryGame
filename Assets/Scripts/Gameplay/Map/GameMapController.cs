@@ -6,7 +6,7 @@ public class GameMapController : MonoBehaviour
 {
     Grid grid;
 
-    [SerializeField] private List<Unit> units;
+    [SerializeField] private List<Unit> buildingUnits;
 
     [SerializeField] private Unit playerUnit;
 
@@ -22,7 +22,7 @@ public class GameMapController : MonoBehaviour
     {
         grid = new Grid();
 
-        foreach (Unit unit in units)
+        foreach (Unit unit in buildingUnits)
         {
             unit.InitUnit(grid, unit.gameObject.transform.position);
         }
