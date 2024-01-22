@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 {
     private List<IBuilding> buildingList = new();
     [SerializeField] private Transform buildingParentObject;
+    [SerializeField] private PlayerController playerController;
 
     DeliveryDestinationManager deliveryDestinationManager;
     // Start is called before the first frame update
@@ -21,7 +22,7 @@ public class GameManager : MonoBehaviour
         }
 
         InitDeliverySystem();
-        SetNewDelivery();
+        StartSingleDelivery();
         
     }
 
@@ -30,8 +31,9 @@ public class GameManager : MonoBehaviour
         deliveryDestinationManager = new DeliveryDestinationManager(buildingList);
     }
 
-    public void SetNewDelivery()
+    public void StartSingleDelivery()
     {
-        DeliveryDestination newDelivery = deliveryDestinationManager.GetDeliveryDestination();
+        playerController.SetNewDelivery(deliveryDestinationManager.GetDeliveryDestination());
+        playerController.StartToDeliver();
     }
 }

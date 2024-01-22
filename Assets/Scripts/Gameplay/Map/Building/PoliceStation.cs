@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +6,8 @@ using UnityEngine;
 public class PoliceStation : MonoBehaviour,IBuilding
 {
     public string BuildingName => "PoliceStation";
-
+    public GameObject GameObject => this.GameObject;
+    public Type Type => typeof(PoliceStation);
     // Start is called before the first frame update
     void Start()
     {

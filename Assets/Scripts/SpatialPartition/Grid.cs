@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -82,6 +83,42 @@ public class Grid
 
         //Add it back to the grid at its new cell
         AddPlayer(playerUnit);
+    }
+
+    public List<IBuilding> GetNearbyBuildings(Vector3 playerPos)
+    {
+        List<IBuilding> nearbyBuildingList = new();
+        List<Vector2Int> nearbyCells = new();
+        //Önce player'ýn bulunduðu cell'i buluyoruz.
+        Vector2Int playerCellPos = ConvertFromWorldToCell(playerPos);
+
+        //Ardýndan nearby hücreleri alýyoruz.
+        Vector2Int nCell = new Vector2Int(playerCellPos.x, playerCellPos.y + 1); nearbyCells.Add(nCell);
+        Vector2Int sCell = new Vector2Int(playerCellPos.x, playerCellPos.y - 1); nearbyCells.Add(sCell);
+        Vector2Int wCell = new Vector2Int(playerCellPos.x - 1, playerCellPos.y); nearbyCells.Add(wCell);
+        Vector2Int eCell = new Vector2Int(playerCellPos.x + 1, playerCellPos.y); nearbyCells.Add(eCell);
+        Vector2Int nwCell = new Vector2Int(playerCellPos.x - 1, playerCellPos.y + 1); nearbyCells.Add(nwCell);
+        Vector2Int neCell = new Vector2Int(playerCellPos.x + 1, playerCellPos.y + 1); nearbyCells.Add(neCell);
+        Vector2Int swCell = new Vector2Int(playerCellPos.x - 1, playerCellPos.y - 1); nearbyCells.Add(swCell);
+        Vector2Int seCell = new Vector2Int(playerCellPos.x + 1, playerCellPos.y - 1); nearbyCells.Add(seCell);
+
+        //Nearby hücrelerin hepsinde dönüp, içerisinde bulunan tüm building'leri listemize ekliyoruz.
+        foreach (Vector2Int dir in nearbyCells)
+        {
+            if (cells[dir.x,dir.y] != null)
+            {
+                //LinkedList içerisinde bir bir ilerliyoruz ve her elemaný listeye ekliyoruz.
+                var currentNode = cells[dir.x, dir.y];
+                while ((currentNode != null))
+                {
+                    nearbyBuildingList.Add(cells[dir.x, dir.y].gameObject.GetComponent<IBuilding>());
+                    currentNode = currentNode.next;
+                }
+            }
+        }
+
+        return nearbyBuildingList;
+
     }
 
     public Vector2Int ConvertFromWorldToCell(Vector3 pos)

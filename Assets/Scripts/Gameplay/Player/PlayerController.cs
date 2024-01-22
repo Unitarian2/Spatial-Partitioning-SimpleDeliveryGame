@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UIElements;
 
 public class PlayerController : MonoBehaviour
 {
@@ -12,6 +14,9 @@ public class PlayerController : MonoBehaviour
 
     Vector3 oldPos;
     Vector3 newPos;
+
+    private IBuilding deliveryStartBuilding;
+    private IBuilding deliveryEndBuilding;
 
     private void Start()
     {
@@ -24,11 +29,36 @@ public class PlayerController : MonoBehaviour
         this.playerUnit = playerUnit;
     }
 
-    
-    public void SetDestination(IBuilding buildingDestination)
+    public void SetNewDelivery(DeliveryDestination newDelivery)
     {
-        //agent.SetDestination(pos);
+        BuildingFinder buildingFinder = new(newDelivery.BuildingStart, grid.GetNearbyBuildings(gameObject.transform.position));
+        IBuilding closestBuilding = buildingFinder.FindSameBuildingsByType().FindClosestBuilding(gameObject.transform.position);
+
+        if(closestBuilding != null)
+        {
+            //Yakýnda bina bulmuþuz
+        }
+        else
+        {
+            //Yakýnda bina bulamamýþýz. Tüm haritada arayacaðýz.
+        }
+
+        deliveryStartBuilding = newDelivery.BuildingStart;
+        deliveryEndBuilding = newDelivery.BuildingEnd;
     }
+    
+    public void StartToDeliver()
+    {
+        
+        SetDestination(deliveryStartBuilding);
+    }
+
+    private void SetDestination(IBuilding buildingDestination)
+    {
+        agent.SetDestination(buildingDestination.GameObject.transform.position);
+    }
+
+    
 
     // Update is called once per frame
     void Update()
@@ -44,6 +74,8 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+
+
         oldPos = newPos;
         newPos = transform.position;
         grid.CheckPlayerMovement(playerUnit,oldPos,newPos);
@@ -51,3 +83,4 @@ public class PlayerController : MonoBehaviour
 
     }
 }
+
