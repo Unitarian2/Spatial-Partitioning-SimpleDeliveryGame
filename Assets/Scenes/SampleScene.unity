@@ -2109,6 +2109,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingParentObject: {fileID: 1269082756}
+  playerController: {fileID: 1376178469}
 --- !u!4 &462336733
 Transform:
   m_ObjectHideFlags: 0
