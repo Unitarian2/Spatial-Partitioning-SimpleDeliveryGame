@@ -25,9 +25,9 @@ public class PlayerController : MonoBehaviour
     }
 
     
-    public void SetDestination(Vector3 pos)
+    public void SetDestination(IBuilding buildingDestination)
     {
-        agent.SetDestination(pos);
+        //agent.SetDestination(pos);
     }
 
     // Update is called once per frame

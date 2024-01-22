@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5377266927130576437}
   - component: {fileID: 7888921773797012223}
   - component: {fileID: 826473683984711986}
+  - component: {fileID: 4994902282964693689}
   m_Layer: 0
   m_Name: Workshop
   m_TagString: Untagged
@@ -99,3 +100,15 @@ MonoBehaviour:
   unitGameObjectName: 
   prevName: 
   nextName: 
+--- !u!114 &4994902282964693689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8537673697885705002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b48b2cccf72fbdf4d9a243406787ffec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

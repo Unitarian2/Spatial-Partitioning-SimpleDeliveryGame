@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4174187122828430321}
   - component: {fileID: 2164338454197059387}
   - component: {fileID: -1918104802993762938}
+  - component: {fileID: -1146268794718926657}
   m_Layer: 0
   m_Name: Hospital
   m_TagString: Untagged
@@ -99,3 +100,15 @@ MonoBehaviour:
   unitGameObjectName: 
   prevName: 
   nextName: 
+--- !u!114 &-1146268794718926657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 363025940278517486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a704da22f66264942a325061a029ee7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3250902957672360080}
   - component: {fileID: 790786689844059226}
   - component: {fileID: 5184268685313972527}
+  - component: {fileID: 180421621991291188}
   m_Layer: 0
   m_Name: School
   m_TagString: Untagged
@@ -99,3 +100,15 @@ MonoBehaviour:
   unitGameObjectName: 
   prevName: 
   nextName: 
+--- !u!114 &180421621991291188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1295220564887911823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2656c049342c6b747a0b90c739bfe315, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

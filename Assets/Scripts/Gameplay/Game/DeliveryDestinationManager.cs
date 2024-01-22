@@ -6,12 +6,12 @@ using UnityEngine;
 
 public class DeliveryDestinationManager
 {
-    private List<IBuilding> buildingList;
+    private List<IBuilding> uniqueBuildingList;
 
     public DeliveryDestinationManager(List<IBuilding> buildings)
     {
         // Her bir binadan yalnýzca bir tane olacak þekilde filtrele
-        buildingList = buildings.GroupBy(b => b.GetType()).Select(g => g.First()).ToList();
+        uniqueBuildingList = buildings.GroupBy(b => b.GetType()).Select(g => g.First()).ToList();
     }
 
     public DeliveryDestination GetDeliveryDestination()
@@ -30,8 +30,8 @@ public class DeliveryDestinationManager
 
     private IBuilding GetRandomBuilding()
     {
-        int randomIndex = UnityEngine.Random.Range(0, buildingList.Count);
-        return buildingList[randomIndex];
+        int randomIndex = UnityEngine.Random.Range(0, uniqueBuildingList.Count);
+        return uniqueBuildingList[randomIndex];
     }
 
 }
