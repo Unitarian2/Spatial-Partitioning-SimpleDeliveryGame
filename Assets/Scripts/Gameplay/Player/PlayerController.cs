@@ -31,7 +31,10 @@ public class PlayerController : MonoBehaviour
 
     public void SetNewDelivery(DeliveryDestination newDelivery)
     {
-        BuildingFinder buildingFinder = new(newDelivery.BuildingStart, grid.GetNearbyBuildings(gameObject.transform.position));
+        deliveryStartBuilding = newDelivery.BuildingStart;
+        deliveryEndBuilding = newDelivery.BuildingEnd;
+
+        BuildingFinder buildingFinder = new(deliveryStartBuilding, grid.GetNearbyBuildings(gameObject.transform.position));
         IBuilding closestBuilding = buildingFinder.FindSameBuildingsByType().FindClosestBuilding(gameObject.transform.position);
 
         if(closestBuilding != null)
@@ -43,8 +46,7 @@ public class PlayerController : MonoBehaviour
             //Yakýnda bina bulamamýþýz. Tüm haritada arayacaðýz.
         }
 
-        deliveryStartBuilding = newDelivery.BuildingStart;
-        deliveryEndBuilding = newDelivery.BuildingEnd;
+        
     }
     
     public void StartToDeliver()
