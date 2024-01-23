@@ -6,7 +6,7 @@ using UnityEngine;
 public class Market : MonoBehaviour, IBuilding
 {
     public string BuildingName => "Market";
-    public GameObject GameObject => this.GameObject;
+    public GameObject GameObject => gameObject;
     public Type Type => typeof(Market);
     // Start is called before the first frame update
     void Start()

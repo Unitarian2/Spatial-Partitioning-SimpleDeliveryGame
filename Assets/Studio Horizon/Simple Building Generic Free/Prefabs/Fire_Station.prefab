@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3160125538751572972}
   - component: {fileID: -2191907905561157058}
   - component: {fileID: 1338410758698919525}
+  - component: {fileID: 8308902367477161825}
   m_Layer: 0
   m_Name: Fire_Station
   m_TagString: Untagged
@@ -112,3 +113,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f97796273914d924aa2eee27e8ea91c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!65 &8308902367477161825
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3520681445263854137}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 16.182089, y: 14.688888, z: 15.119686}
+  m_Center: {x: 0, y: 7.344441, z: 1.235194}

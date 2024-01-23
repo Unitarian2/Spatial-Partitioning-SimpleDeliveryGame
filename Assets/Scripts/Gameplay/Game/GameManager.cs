@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
         }
 
         InitDeliverySystem();
-        StartSingleDelivery();
+        StartCoroutine(DoSomething());
         
     }
 
@@ -35,5 +35,11 @@ public class GameManager : MonoBehaviour
     {
         playerController.SetNewDelivery(deliveryDestinationManager.GetDeliveryDestination());
         playerController.StartToDeliver();
+    }
+
+    IEnumerator DoSomething()
+    {
+        yield return new WaitForSeconds(3);
+        StartSingleDelivery();
     }
 }

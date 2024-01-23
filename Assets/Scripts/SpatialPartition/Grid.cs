@@ -79,7 +79,7 @@ public class Grid
         }
 
         //Remove it from the old cell
-        cells[oldCellPos.x, oldCellPos.y] = null;
+        playerCells[oldCellPos.x, oldCellPos.y] = null;
 
         //Add it back to the grid at its new cell
         AddPlayer(playerUnit);
@@ -93,6 +93,7 @@ public class Grid
         Vector2Int playerCellPos = ConvertFromWorldToCell(playerPos);
 
         //Ardýndan nearby hücreleri alýyoruz.
+        Vector2Int currentCell = new Vector2Int(playerCellPos.x, playerCellPos.y); nearbyCells.Add(currentCell);
         Vector2Int nCell = new Vector2Int(playerCellPos.x, playerCellPos.y + 1); nearbyCells.Add(nCell);
         Vector2Int sCell = new Vector2Int(playerCellPos.x, playerCellPos.y - 1); nearbyCells.Add(sCell);
         Vector2Int wCell = new Vector2Int(playerCellPos.x - 1, playerCellPos.y); nearbyCells.Add(wCell);

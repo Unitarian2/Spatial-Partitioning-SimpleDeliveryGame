@@ -6,7 +6,7 @@ using UnityEngine;
 public class School : MonoBehaviour, IBuilding
 {
     public string BuildingName => "School";
-    public GameObject GameObject => this.GameObject;
+    public GameObject GameObject => gameObject;
     public Type Type => typeof(School);
     // Start is called before the first frame update
     void Start()

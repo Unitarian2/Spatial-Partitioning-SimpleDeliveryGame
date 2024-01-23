@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7625130226012025342}
   - component: {fileID: 8729537045070567104}
   - component: {fileID: 5220025569417728994}
+  - component: {fileID: 4620351694375206265}
   m_Layer: 0
   m_Name: Police_Station
   m_TagString: Untagged
@@ -112,3 +113,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f415d8c2d04bc214493ee6299b69ac50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!65 &4620351694375206265
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8273424752105082923}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 14.724908, y: 10.368642, z: 8.378456}
+  m_Center: {x: -0.29758978, y: 5.1779103, z: 0.3946613}

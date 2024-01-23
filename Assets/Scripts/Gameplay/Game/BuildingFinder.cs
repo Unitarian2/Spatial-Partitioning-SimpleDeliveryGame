@@ -46,7 +46,7 @@ public class BuildingFinder
         foreach (IBuilding possibleBuilding in possibleTargetBuildingList)
         {
             NavMeshPath path = new NavMeshPath();
-            NavMesh.CalculatePath(sourcePos, possibleBuilding.GameObject.transform.position, NavMesh.AllAreas, path);
+            NavMesh.CalculatePath(sourcePos, possibleBuilding.GameObject.transform.position, 0, path);
 
             float pathDistance = GetPathDistance(path);
 

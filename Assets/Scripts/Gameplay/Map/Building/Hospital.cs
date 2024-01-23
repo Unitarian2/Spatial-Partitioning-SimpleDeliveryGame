@@ -6,7 +6,7 @@ using UnityEngine;
 public class Hospital : MonoBehaviour, IBuilding
 {
     public string BuildingName => "Hospital";
-    public GameObject GameObject => this.GameObject;
+    public GameObject GameObject => gameObject;
     public Type Type => typeof(Hospital);
 
     // Start is called before the first frame update

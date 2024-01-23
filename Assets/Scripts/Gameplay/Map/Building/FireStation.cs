@@ -6,7 +6,7 @@ using UnityEngine;
 public class FireStation : MonoBehaviour, IBuilding
 {
     public string BuildingName => "FireStation";
-    public GameObject GameObject => this.GameObject;
+    public GameObject GameObject => gameObject;
     public Type Type => typeof(FireStation);
 
     // Start is called before the first frame update

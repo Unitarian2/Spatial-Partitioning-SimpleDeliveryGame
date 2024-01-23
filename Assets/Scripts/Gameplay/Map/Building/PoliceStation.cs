@@ -6,7 +6,7 @@ using UnityEngine;
 public class PoliceStation : MonoBehaviour,IBuilding
 {
     public string BuildingName => "PoliceStation";
-    public GameObject GameObject => this.GameObject;
+    public GameObject GameObject => gameObject;
     public Type Type => typeof(PoliceStation);
     // Start is called before the first frame update
     void Start()
