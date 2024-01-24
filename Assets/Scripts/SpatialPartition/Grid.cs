@@ -112,13 +112,39 @@ public class Grid
                 var currentNode = cells[dir.x, dir.y];
                 while ((currentNode != null))
                 {
-                    nearbyBuildingList.Add(cells[dir.x, dir.y].gameObject.GetComponent<IBuilding>());
+                    //nearbyBuildingList.Add(cells[dir.x, dir.y].gameObject.GetComponent<IBuilding>());
+                    nearbyBuildingList.Add(currentNode.gameObject.GetComponent<IBuilding>());
                     currentNode = currentNode.next;
                 }
             }
         }
 
         return nearbyBuildingList;
+
+    }
+
+    public List<IBuilding> GetAllBuildings()
+    {
+        List<IBuilding> allBuildingList = new();
+
+        int width = cells.GetLength(0);
+        int height = cells.GetLength(1);
+
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                //LinkedList içerisinde bir bir ilerliyoruz ve her elemaný listeye ekliyoruz.
+                var currentNode = cells[x, y];
+                while ((currentNode != null))
+                {
+                    allBuildingList.Add(cells[x, y].gameObject.GetComponent<IBuilding>());
+                    currentNode = currentNode.next;
+                }
+                
+            }
+        }
+        return allBuildingList;
 
     }
 

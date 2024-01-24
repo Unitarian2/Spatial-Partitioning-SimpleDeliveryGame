@@ -14,16 +14,29 @@ public class DeliveryDestinationManager
         uniqueBuildingList = buildings.GroupBy(b => b.GetType()).Select(g => g.First()).ToList();
     }
 
-    public DeliveryDestination GetDeliveryDestination()
+    public DeliveryDestination GetDeliveryDestination(Type typeToAvoid)
     {
         // Liste içerisinden iki farklý bina tipi seç
-        IBuilding buildingStart = GetRandomBuilding();
+        IBuilding buildingStart;
+        if (typeToAvoid != null)
+        {
+            do
+            {
+                buildingStart = GetRandomBuilding();
+            } while (buildingStart.Type == typeToAvoid);
+        }
+        else
+        {
+            buildingStart = GetRandomBuilding();
+        }
+         
+        
         IBuilding buildingEnd;
-
+        
         do
         {
             buildingEnd = GetRandomBuilding();
-        } while (buildingStart == buildingEnd); // Ýki tip farklý olmalý
+        } while (buildingStart.Type == buildingEnd.Type); // Ýki tip farklý olmalý
 
         return new DeliveryDestination(buildingStart, buildingEnd);
     }

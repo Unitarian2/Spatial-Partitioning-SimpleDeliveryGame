@@ -8,10 +8,10 @@ public class School : MonoBehaviour, IBuilding
     public string BuildingName => "School";
     public GameObject GameObject => gameObject;
     public Type Type => typeof(School);
-    // Start is called before the first frame update
+    public GameObject EntryPoint { get; set; }
     void Start()
     {
-        
+        EntryPoint = gameObject.transform.GetChild(0).gameObject;
     }
 
     // Update is called once per frame

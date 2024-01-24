@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -7,11 +8,13 @@ public class BuildingFinder
 {
     private IBuilding targetBuildingType;
     private List<IBuilding> buildingList;
+    
     private List<IBuilding> possibleTargetBuildingList;
     public BuildingFinder(IBuilding targetBuildingType, List<IBuilding> buildingList)
     {
         this.targetBuildingType = targetBuildingType;
         this.buildingList = buildingList;
+        
     }
 
     public BuildingFinder FindSameBuildingsByType()
@@ -31,6 +34,8 @@ public class BuildingFinder
             possibleTargetBuildingList = null;
             return this;
         }
+        
+        
         return this;
     }
 
@@ -41,16 +46,17 @@ public class BuildingFinder
             return null; // Eðer null dönmüþse, diðer fonksiyonlar çaðrýlamaz
         }
 
+
         IBuilding closestBuilding = null;
         float closestPathDistance = Mathf.Infinity;
         foreach (IBuilding possibleBuilding in possibleTargetBuildingList)
         {
             NavMeshPath path = new NavMeshPath();
-            NavMesh.CalculatePath(sourcePos, possibleBuilding.GameObject.transform.position, 0, path);
+            NavMesh.CalculatePath(sourcePos, possibleBuilding.EntryPoint.transform.position, NavMesh.AllAreas, path);
 
             float pathDistance = GetPathDistance(path);
 
-            if (pathDistance < closestPathDistance)
+            if ((pathDistance < closestPathDistance))
             {
                 closestPathDistance = pathDistance;
                 closestBuilding = possibleBuilding;

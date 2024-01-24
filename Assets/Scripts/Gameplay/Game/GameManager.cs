@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : Singleton<GameManager>
 {
     private List<IBuilding> buildingList = new();
     [SerializeField] private Transform buildingParentObject;
@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        
         InitDeliverySystem();
         StartCoroutine(DoSomething());
         
@@ -31,15 +32,15 @@ public class GameManager : MonoBehaviour
         deliveryDestinationManager = new DeliveryDestinationManager(buildingList);
     }
 
-    public void StartSingleDelivery()
+    public void StartSingleDelivery(Type typeToAvoid)
     {
-        playerController.SetNewDelivery(deliveryDestinationManager.GetDeliveryDestination());
+        playerController.SetNewDelivery(deliveryDestinationManager.GetDeliveryDestination(typeToAvoid));
         playerController.StartToDeliver();
     }
 
     IEnumerator DoSomething()
     {
         yield return new WaitForSeconds(3);
-        StartSingleDelivery();
+        StartSingleDelivery(null);
     }
 }

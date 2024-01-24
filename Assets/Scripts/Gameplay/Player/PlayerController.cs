@@ -9,42 +9,70 @@ public class PlayerController : MonoBehaviour
 {
     private NavMeshAgent agent;
 
+    //Dependencies
     Grid grid;
     Unit playerUnit;
+    GameManager gameManager;
 
     Vector3 oldPos;
     Vector3 newPos;
-
-    private IBuilding deliveryStartBuildingType;
-    private IBuilding deliveryEndBuildingType;
 
     private IBuilding deliveryStartBuilding;
     private IBuilding deliveryEndBuilding;
 
     private PlayerDeliveryType playerDeliveryState = PlayerDeliveryType.Waiting;
 
+    //For Debug Purposes
+    private IBuilding deliveryStartBuildingType;
+    private IBuilding deliveryEndBuildingType;
+    private List<IBuilding> nearbyBuildingsStart = new();
+    private List<IBuilding> nearbyBuildingsEnd = new();
+    public List<GameObject> nearbyBuildingsStartObject = new();
+    public List<GameObject> nearbyBuildingsEndObject = new();
+
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
     }
 
+    
     public void InitPlayerMapInfo(Grid grid, Unit playerUnit)
     {
         this.grid = grid;
         this.playerUnit = playerUnit;
+        
     }
 
     public void SetNewDelivery(DeliveryDestination newDelivery)
     {
-        deliveryStartBuildingType = newDelivery.BuildingStart;
-        deliveryEndBuildingType = newDelivery.BuildingEnd;
-       
+        //deliveryStartBuildingType = newDelivery.BuildingStart;
+        //deliveryEndBuildingType = newDelivery.BuildingEnd;
+        Debug.LogWarning("Start : " + newDelivery.BuildingStart.BuildingName + " / "+ "End : "+ newDelivery.BuildingEnd.BuildingName);
+
+        //nearbyBuildingsStart = grid.GetNearbyBuildings(gameObject.transform.position);
+        //AddObjects(nearbyBuildingsStart, nearbyBuildingsStartObject);
 
         BuildingFinder buildingFinderStart = new(newDelivery.BuildingStart, grid.GetNearbyBuildings(gameObject.transform.position));
         IBuilding closestBuildingStart = buildingFinderStart.FindSameBuildingsByType().FindClosestBuilding(gameObject.transform.position);
+        if(closestBuildingStart == null)
+        {
+            Debug.Log("Building Not Found, Searching All Buildings");
+            BuildingFinder buildingFinderStartAll = new(newDelivery.BuildingStart, grid.GetAllBuildings());
+            closestBuildingStart = buildingFinderStartAll.FindSameBuildingsByType().FindClosestBuilding(gameObject.transform.position);
+        }
 
-        BuildingFinder buildingFinderEnd = new(newDelivery.BuildingEnd, grid.GetNearbyBuildings(closestBuildingStart.GameObject.transform.position));
-        IBuilding closestBuildingEnd = buildingFinderEnd.FindSameBuildingsByType().FindClosestBuilding(closestBuildingStart.GameObject.transform.position);
+        //nearbyBuildingsEnd = grid.GetNearbyBuildings(closestBuildingStart.EntryPoint.transform.position);
+        //AddObjects(nearbyBuildingsEnd, nearbyBuildingsEndObject);
+
+        BuildingFinder buildingFinderEnd = new(newDelivery.BuildingEnd, grid.GetNearbyBuildings(closestBuildingStart.EntryPoint.transform.position));
+        IBuilding closestBuildingEnd = buildingFinderEnd.FindSameBuildingsByType().FindClosestBuilding(closestBuildingStart.EntryPoint.transform.position);
+        if (closestBuildingEnd == null)
+        {
+            Debug.Log("Building Not Found, Searching All Buildings");
+            BuildingFinder buildingFinderEndAll = new(newDelivery.BuildingEnd, grid.GetAllBuildings());
+            closestBuildingEnd = buildingFinderEndAll.FindSameBuildingsByType().FindClosestBuilding(closestBuildingStart.EntryPoint.transform.position);
+        }
+
 
         if (closestBuildingStart != null && closestBuildingEnd != null)
         {
@@ -56,9 +84,33 @@ public class PlayerController : MonoBehaviour
         else
         {
             //Yakýnda bina bulamamýþýz. Tüm haritada arayacaðýz.
-            Debug.Log("Building Not Found");
+            Debug.Log("Building Not Found, Searching All Buildings");
+            BuildingFinder buildingFinderStartAll = new(newDelivery.BuildingStart, grid.GetAllBuildings());
+            deliveryStartBuilding = buildingFinderStartAll.FindSameBuildingsByType().FindClosestBuilding(gameObject.transform.position);
+
+            BuildingFinder buildingFinderEndAll = new(newDelivery.BuildingEnd, grid.GetAllBuildings());
+            deliveryEndBuilding = buildingFinderEndAll.FindSameBuildingsByType().FindClosestBuilding(deliveryStartBuilding.EntryPoint.transform.position);
+
+            if (closestBuildingStart == null || closestBuildingEnd == null)
+            {
+                Debug.LogError("Invalid Route, Starting a New Delivery");
+                GameManager.Instance.StartSingleDelivery(null);
+            }
+            else
+            {
+                Debug.Log("Route Found : " + closestBuildingStart.GameObject.name + " to " + closestBuildingEnd.GameObject.name);
+            }
         }
 
+        
+    }
+
+    private void AddObjects(List<IBuilding> buildings,List<GameObject> list)
+    {
+        foreach (IBuilding building in buildings)
+        {
+            list.Add(building.GameObject);
+        }
         
     }
     
@@ -70,7 +122,7 @@ public class PlayerController : MonoBehaviour
 
     private void SetDestination(IBuilding buildingDestination)
     {
-        agent.SetDestination(buildingDestination.GameObject.transform.position);
+        agent.SetDestination(buildingDestination.EntryPoint.transform.position);
     }
 
     
@@ -102,8 +154,8 @@ public class PlayerController : MonoBehaviour
     {
         if(playerDeliveryState != PlayerDeliveryType.Waiting)
         {
-            Debug.Log("Player reached: " + other.gameObject.name);
-            if (other.gameObject.TryGetComponent<IBuilding>(out IBuilding building))
+            //Debug.Log("Player reached: " + other.gameObject.name);
+            if (other.gameObject.transform.parent.TryGetComponent<IBuilding>(out IBuilding building))
             {
                 if (building == deliveryStartBuilding && playerDeliveryState == PlayerDeliveryType.MovingToStart)
                 {
@@ -117,12 +169,12 @@ public class PlayerController : MonoBehaviour
                     Debug.Log("End Building'e ulaþýldý!");
                     playerDeliveryState = PlayerDeliveryType.Waiting;
                     //agent.isStopped = true;
+                    GameManager.Instance.StartSingleDelivery(deliveryEndBuilding.Type);
                 }
             }
         }
-        
-        
     }
+   
 }
 
 public enum PlayerDeliveryType
