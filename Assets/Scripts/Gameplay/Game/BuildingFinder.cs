@@ -46,7 +46,6 @@ public class BuildingFinder
             return null; // Eðer null dönmüþse, diðer fonksiyonlar çaðrýlamaz
         }
 
-
         IBuilding closestBuilding = null;
         float closestPathDistance = Mathf.Infinity;
         foreach (IBuilding possibleBuilding in possibleTargetBuildingList)

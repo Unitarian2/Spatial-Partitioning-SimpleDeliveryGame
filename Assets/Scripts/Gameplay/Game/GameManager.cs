@@ -32,6 +32,10 @@ public class GameManager : Singleton<GameManager>
         deliveryDestinationManager = new DeliveryDestinationManager(buildingList);
     }
 
+    /// <summary>
+    /// Player teslimata baþlar. Rota baþlangýcý için hedef alýnmayacak herhangi bir bina tipini belirlemek istemiyorsanýz null yükleyebilirsiniz.
+    /// </summary>
+    /// <param name="typeToAvoid"></param>
     public void StartSingleDelivery(Type typeToAvoid)
     {
         playerController.SetNewDelivery(deliveryDestinationManager.GetDeliveryDestination(typeToAvoid));

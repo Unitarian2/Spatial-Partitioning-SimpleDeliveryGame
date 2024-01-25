@@ -12,7 +12,7 @@ public class Grid
     private Unit[,] cells = new Unit[NUM_CELLS, NUM_CELLS];
     private Unit[,] playerCells = new Unit[NUM_CELLS, NUM_CELLS];
 
-    //How many units do we have on the grid, which should be faster than to iterate through all cells and count them
+    
     public int unitCount { get; private set; }
 
     public Grid()
@@ -122,7 +122,11 @@ public class Grid
         return nearbyBuildingList;
 
     }
-
+    
+    /// <summary>
+    /// cells içindeki tüm binalarý döndürür.
+    /// </summary>
+    /// <returns></returns>
     public List<IBuilding> GetAllBuildings()
     {
         List<IBuilding> allBuildingList = new();
@@ -148,19 +152,19 @@ public class Grid
 
     }
 
+    /// <summary>
+    /// Verilen position'ýn hangi hücreye denk geldiðini bulur. FloorToInt kullanarak küsüratan kurtularak hücre index'ini buluyoruz. 
+    /// Hücreler þu þekildedir => CELL_SIZE = 15 ise, her 15 birimde bir yeni bir hücreye geçilir. Örneðin x,z=>7,17 ise bu cell[0,1]'dir.
+    /// </summary>
+    /// <param name="pos"></param>
+    /// <returns></returns>
     public Vector2Int ConvertFromWorldToCell(Vector3 pos)
     {
-        //Dividing coordinate by cell size converts from world space to cell space
-        //Casting to int converts from cell space to cell index
-        //int cellX = (int)(pos.x / CELL_SIZE);
-        //int cellY = (int)(pos.z / CELL_SIZE); //z instead of y because y is up in Unity's coordinate system
-
-        //Casting to int in C# doesnt work in same way as in C++ so we have to use FloorToInt instead
-        //It works like this if cell size is 2:
+        //if cell size is 2:
         //pos.x is 1.8, then cellX will be 1.8/2 = 0.9 -> 0
         //pos.x is 2.1, then cellX will be 2.1/2 = 1.05 -> 1
         int cellX = Mathf.FloorToInt(pos.x / CELL_SIZE);
-        int cellY = Mathf.FloorToInt(pos.z / CELL_SIZE); //z instead of y because y is up in Unity's coordinate system
+        int cellY = Mathf.FloorToInt(pos.z / CELL_SIZE);
 
         Vector2Int cellPos = new Vector2Int(cellX, cellY);
 

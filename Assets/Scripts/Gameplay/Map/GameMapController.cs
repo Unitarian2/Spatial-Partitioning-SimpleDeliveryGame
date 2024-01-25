@@ -34,7 +34,7 @@ public class GameMapController : MonoBehaviour
 
     private void LateUpdate()
     {
-        //Display the grid with lines
+        
         if (gridMaterial == null)
         {
             gridMaterial = new Material(Shader.Find("Unlit/Color"));
@@ -52,7 +52,7 @@ public class GameMapController : MonoBehaviour
             gridMesh = InitGridMesh();
         }
 
-        //Display the mesh
+       
         Graphics.DrawMesh(gridMesh, Vector3.zero, Quaternion.identity, gridMaterial, 0, Camera.main, 0);
 
     }
@@ -82,7 +82,7 @@ public class GameMapController : MonoBehaviour
         }
 
 
-        //Generate the indices
+        
         List<int> indices = new();
 
         for (int i = 0; i < lineVertices.Count; i++)
@@ -91,7 +91,7 @@ public class GameMapController : MonoBehaviour
         }
 
 
-        //Generate the mesh
+        
         Mesh gridMesh = new();
 
         gridMesh.SetVertices(lineVertices);

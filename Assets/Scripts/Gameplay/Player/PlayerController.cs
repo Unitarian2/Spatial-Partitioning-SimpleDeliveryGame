@@ -22,13 +22,7 @@ public class PlayerController : MonoBehaviour
 
     private PlayerDeliveryType playerDeliveryState = PlayerDeliveryType.Waiting;
 
-    //For Debug Purposes
-    private IBuilding deliveryStartBuildingType;
-    private IBuilding deliveryEndBuildingType;
-    private List<IBuilding> nearbyBuildingsStart = new();
-    private List<IBuilding> nearbyBuildingsEnd = new();
-    public List<GameObject> nearbyBuildingsStartObject = new();
-    public List<GameObject> nearbyBuildingsEndObject = new();
+    
 
     private void Start()
     {
@@ -42,16 +36,16 @@ public class PlayerController : MonoBehaviour
         this.playerUnit = playerUnit;
         
     }
-
+    /// <summary>
+    /// Gidilecek baþlangýç ve bitiþ rotasýný oluþturur. newDelivery'de verilen bina tiplerine göre seçimi yapar.
+    /// </summary>
+    /// <param name="newDelivery"></param>
     public void SetNewDelivery(DeliveryDestination newDelivery)
     {
-        //deliveryStartBuildingType = newDelivery.BuildingStart;
-        //deliveryEndBuildingType = newDelivery.BuildingEnd;
         Debug.LogWarning("Start : " + newDelivery.BuildingStart.BuildingName + " / "+ "End : "+ newDelivery.BuildingEnd.BuildingName);
 
-        //nearbyBuildingsStart = grid.GetNearbyBuildings(gameObject.transform.position);
-        //AddObjects(nearbyBuildingsStart, nearbyBuildingsStartObject);
-
+        #region Start Route
+        //Rotanýn baþlayacaðý bina belirleniyor. Önce yakýn civardaki binalarda arama yapýlýyor. Bulunamaz veya bir bug oluþursa tüm binalarda arama yapýlýyor.
         BuildingFinder buildingFinderStart = new(newDelivery.BuildingStart, grid.GetNearbyBuildings(gameObject.transform.position));
         IBuilding closestBuildingStart = buildingFinderStart.FindSameBuildingsByType().FindClosestBuilding(gameObject.transform.position);
         if(closestBuildingStart == null)
@@ -60,10 +54,10 @@ public class PlayerController : MonoBehaviour
             BuildingFinder buildingFinderStartAll = new(newDelivery.BuildingStart, grid.GetAllBuildings());
             closestBuildingStart = buildingFinderStartAll.FindSameBuildingsByType().FindClosestBuilding(gameObject.transform.position);
         }
+        #endregion
 
-        //nearbyBuildingsEnd = grid.GetNearbyBuildings(closestBuildingStart.EntryPoint.transform.position);
-        //AddObjects(nearbyBuildingsEnd, nearbyBuildingsEndObject);
-
+        #region End Route
+        //Rotanýn biteceði bina belirleniyor. Önce yakýn civardaki binalarda arama yapýlýyor. Bulunamaz veya bir bug oluþursa tüm binalarda arama yapýlýyor.
         BuildingFinder buildingFinderEnd = new(newDelivery.BuildingEnd, grid.GetNearbyBuildings(closestBuildingStart.EntryPoint.transform.position));
         IBuilding closestBuildingEnd = buildingFinderEnd.FindSameBuildingsByType().FindClosestBuilding(closestBuildingStart.EntryPoint.transform.position);
         if (closestBuildingEnd == null)
@@ -72,8 +66,9 @@ public class PlayerController : MonoBehaviour
             BuildingFinder buildingFinderEndAll = new(newDelivery.BuildingEnd, grid.GetAllBuildings());
             closestBuildingEnd = buildingFinderEndAll.FindSameBuildingsByType().FindClosestBuilding(closestBuildingStart.EntryPoint.transform.position);
         }
+        #endregion
 
-
+        //Baþlangýç ve bitiþ baþarýlý bir þekilde bulunduysa hedefleri set ediyoruz. Bu if clause bug durumuna karþýn konuldu.
         if (closestBuildingStart != null && closestBuildingEnd != null)
         {
             //Yakýnda bina bulmuþuz
@@ -102,24 +97,21 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        
     }
 
-    private void AddObjects(List<IBuilding> buildings,List<GameObject> list)
-    {
-        foreach (IBuilding building in buildings)
-        {
-            list.Add(building.GameObject);
-        }
-        
-    }
-    
+    /// <summary>
+    /// Player Object rotaya baþlar. Bunu çaðýrmadan önce SetNewDelivery ile rota belirleyin.
+    /// </summary>
     public void StartToDeliver()
     {       
         SetDestination(deliveryStartBuilding);
         playerDeliveryState = PlayerDeliveryType.MovingToStart;
     }
 
+    /// <summary>
+    /// Player Object'i bir binanýn Entry Point'ine gönderir.
+    /// </summary>
+    /// <param name="buildingDestination"></param>
     private void SetDestination(IBuilding buildingDestination)
     {
         agent.SetDestination(buildingDestination.EntryPoint.transform.position);
@@ -142,7 +134,7 @@ public class PlayerController : MonoBehaviour
         //}
 
 
-
+        //Player'ýn içinde bulunduðu Grid Cell deðiþiminin kontrolü.
         oldPos = newPos;
         newPos = transform.position;
         grid.CheckPlayerMovement(playerUnit,oldPos,newPos);
