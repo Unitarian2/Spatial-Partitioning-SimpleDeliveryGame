@@ -1,5 +1,5 @@
 # Spatial-Partitioning-SimpleDeliveryGame
-Spatial Grid Partition kullanarak yakın çevresine teslimat yapan bir Nav Agent içeren bir repo'dur.<br><br>
+Spatial Grid Partition kullanarak yakın çevresine teslimat yapan bir Nav Agent içeren bir repo'dur. Spatial Partition sayesinde, şehrin içerisindeki binaların düzeni ve konumları değişse bile sistem çalışmaya devam eder.<br><br>
 
 <b>---SPATIAL PARTITION---</b><br>
 <b>Unit.cs</b> => Grid içerisindeki her bir birimi temsil eden sınıftır. InitUnit metodu ile Unit'in sınırları içerisindeki binaları hücreler eşleştirir. Bu sayede Grid içerisindeki tüm binalar ilgili hücrelere eklenir. InitPlayerUnit metodu ise InitUnit metodu ile temelde aynı işi yapar ancak bunu sadece Player'ın GameObject'i için gerçekleştirir. <br>
